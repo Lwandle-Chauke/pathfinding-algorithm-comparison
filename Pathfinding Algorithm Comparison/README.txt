@@ -1,10 +1,3 @@
-================================================================================
-COS314 Assignment 1 – Search Algorithm Comparison
-Student Name: Lwandle Chauke
-Student Number: u23574977
-Submission Date: 15 March 2026
-================================================================================
-
 1. OVERVIEW
 ------------
 This program implements and compares three fundamental search algorithms:
