@@ -1,0 +1,85 @@
+#lang racket
+;; ============================================================
+;; COS 333 Practical 2: Functional Programming
+;; Student: Lwandle Chauke
+;; Student Number: u23574977
+;; ============================================================
+;;
+;; REFERENCES:
+;; [1] Department of Computer Science, University of Pretoria.
+;; "Practical 2: Functional Programming", COS 333, 23 Feb 2026.
+;; [2] Scott, M.L. "Programming Language Pragmatics", 4th ed.,
+;; Chapter 15 (Functional Programming). Morgan Kaufmann, 2016.
+;; [3] Hanson, C. and MIT Scheme Team. "MIT/GNU Scheme Reference Manual",
+;; Massachusetts Institute of Technology, 2018.
+;;
+;; ============================================================
+;; ------------------------------------------------------------------
+;; TASK 1: coneVolume
+;; ------------------------------------------------------------------
+;; Computes the volume of a cone given radius and height.
+;; Parameters:
+;; r - radius of the cone's base (numeric atom)
+;; h - height of the cone (numeric atom)
+;; Returns:
+;; Volume of the cone if r > 0 and h > 0, otherwise 0.
+;; Formula: V = π * r^2 * (h/3), with π approximated as 22/7.
+;; ------------------------------------------------------------------
+(define coneVolume
+ (lambda (r h)
+ (let ((pi (/ 22 7))) ; π = 22/7 (using division, not literal)
+ (if (or (<= r 0) (<= h 0))
+ 0 ; return zero for non‐positive inputs
+ (* pi (* r r) (/ h 3)))))) ; π * r2 * (h/3)
+;; ------------------------------------------------------------------
+;; TASK 2: countNonZeroValues
+;; ------------------------------------------------------------------
+;; Counts the number of non‐zero values in a list of integers.
+;; Parameters:
+;; lst - a list containing only integer atoms
+;; Returns:
+;; The count of elements that are not zero.
+;; ------------------------------------------------------------------
+(define countNonZeroValues
+ (lambda (lst)
+ (cond
+ ((null? lst) 0) ; empty list → 0
+ ((zero? (car lst)) ; current element is zero
+ (countNonZeroValues (cdr lst))) ; skip it and count the rest
+ (else ; current element is non‐zero
+ (+ 1 (countNonZeroValues (cdr lst))))))) ; add 1 and count the rest
+;; ------------------------------------------------------------------
+;; TASK 3: doubleEverySecondElement
+;; ------------------------------------------------------------------
+;; Returns a list containing the doubled values of every second element
+;; of the input list (positions 2, 4, 6, ...).
+;; Parameters:
+;; lst - a list containing only integer atoms
+;; Returns:
+;; A new list with the doubled values of the elements at even positions.
+;; ------------------------------------------------------------------
+;; Helper: process-odd
+;; Receives a list whose first element is at an odd position in the original.
+;; It discards that element (since odd positions are not doubled)
+;; and calls process-even on the rest.
+(define process-odd
+ (lambda (lst)
+ (cond
+ ((null? lst) '())
+ (else (process-even (cdr lst))))))
+;; Helper: process-even
+;; Receives a list whose first element is at an even position in the original.
+;; It doubles that element, conses it onto the result,
+;; and then calls process-odd on the rest to continue.
+(define process-even
+ (lambda (lst)
+ (cond
+ ((null? lst) '())
+ (else
+ (cons (* 2 (car lst))
+ (process-odd (cdr lst)))))))
+;; Main function: doubleEverySecondElement
+;; Starts the recursion with process-odd to correctly handle the first element.
+(define doubleEverySecondElement
+ (lambda (lst)
+ (process-odd lst)))
